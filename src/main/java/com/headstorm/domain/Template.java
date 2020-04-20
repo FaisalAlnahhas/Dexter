@@ -42,9 +42,17 @@ public class Template extends Entity {
     public void addRequiredAttribute(Attribute attribute) {
         requiredAttributes.add(attribute);
     }
+    public void addRequiredAttributes(Iterable<Attribute> attributes) {
+        for (Attribute att : attributes)
+        requiredAttributes.add(att);
+    }
 
     public void addOptionalAttribute(Attribute attribute) {
         optionalAttributes.add(attribute);
+    }
+    public void addOptionalAttributes(Iterable<Attribute> attributes) {
+        for (Attribute att : attributes)
+            optionalAttributes.add(att);
     }
 
     @Override

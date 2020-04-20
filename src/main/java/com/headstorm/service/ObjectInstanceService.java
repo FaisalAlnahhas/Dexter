@@ -1,9 +1,6 @@
 package com.headstorm.service;
 
-import com.headstorm.domain.Attribute;
-import com.headstorm.domain.AttributeValue;
-import com.headstorm.domain.ObjectInstance;
-import com.headstorm.domain.Template;
+import com.headstorm.domain.*;
 
 import java.util.Map;
 
@@ -40,6 +37,21 @@ public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
         }
         return i;
     }
+
+    public void addRelationship(String sourceGuid, String targetGuid) {
+        Entity source = find(sourceGuid);
+        Entity target = find(targetGuid);
+        EntityRelationship rel = new EntityRelationship();
+        rel.source = source;
+        rel.target = target;
+        session.save(rel);
+    }
+
+//    public Iterable<Entity> findEntitiesWithTag(String tagName) {
+//        return session.query(Template.class,
+//                "MATCH (a:ObjectInstance)-[*]-> WHERE template.name = $name RETURN template",
+//                Map.of("name", name));
+//    }
 
     public Iterable<Template> findByName(String name) {
         return session.query(Template.class,
