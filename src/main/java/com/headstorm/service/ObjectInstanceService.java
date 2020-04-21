@@ -47,11 +47,11 @@ public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
         session.save(rel);
     }
 
-//    public Iterable<Entity> findEntitiesWithTag(String tagName) {
-//        return session.query(Template.class,
-//                "MATCH (a:ObjectInstance)-[*]-> WHERE template.name = $name RETURN template",
-//                Map.of("name", name));
-//    }
+    public Iterable<ObjectInstance> instanceOfType(String typeName) {
+        return session.query(ObjectInstance.class,
+                "MATCH (a:ObjectInstance) WHERE a.type = $typeName RETURN a",
+                Map.of("typeName", typeName));
+    }
 
     public Iterable<Template> findByName(String name) {
         return session.query(Template.class,

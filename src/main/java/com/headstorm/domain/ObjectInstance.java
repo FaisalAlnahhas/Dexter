@@ -15,6 +15,7 @@ public class ObjectInstance extends Entity {
     @Relationship(type = "INSTANCE_OF")
     public Template template;
 
+    public String type;
 
     transient public Map<String, Object> attributeValues;
 
@@ -25,6 +26,7 @@ public class ObjectInstance extends Entity {
     private ObjectInstance(String guid, String name, Template template, Map<String, Object> attributeValues) {
         this.guid = guid;
         this.name = name;
+        this.type = template.name;
         this.template = template;
         if (attributeValues == null) {
             this.attributeValues = new HashMap<>();
@@ -37,4 +39,13 @@ public class ObjectInstance extends Entity {
 
     }
 
+    @Override
+    public String toString() {
+        return "ObjectInstance{" +
+                "name='" + name + '\'' +
+                ", template=" + template +
+                ", type='" + type + '\'' +
+                ", attributeValues=" + attributeValues +
+                '}';
+    }
 }
