@@ -11,6 +11,11 @@ import java.util.UUID;
 @NodeEntity
 public class Template extends Entity {
 
+    @Override
+    public String getEntityType() {
+        return "Template";
+    }
+
     @Property
     public String name;
 

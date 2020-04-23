@@ -2,12 +2,17 @@ package com.headstorm.service;
 
 import com.headstorm.domain.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
 
     private final ObjectRegistry<Template> templates = new ObjectRegistry<>(Template.class);
     private final ObjectRegistry<Attribute> attributes = new ObjectRegistry<>(Attribute.class);
+    private final ObjectRegistry<AttributeValue> attributeValues = new ObjectRegistry<>(AttributeValue.class);
 
     public ObjectInstanceService() {
         super(ObjectInstance.class);
@@ -25,17 +30,81 @@ public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
         return templates.createOrUpdate(template);
     }
 
+    public void createOrUpdateAttributeValue(String objectGuid, String attributeName, Object value) {
+        if (value == null) {
+            return;
+        }
+        ObjectInstance instance = find(objectGuid);
+        Attribute attribute = attributes.findByProperty("name", attributeName);
+        createOrUpdateAttributeValue(instance, attribute, value);
+    }
+
+    public AttributeValue createOrUpdateAttributeValue(ObjectInstance objectInstance, Attribute attribute, Object value) {
+        if (value == null) {
+            // How should we notify the caller that the value is null?
+            System.out.println(attribute);
+            System.out.println(value);
+            return null;
+        }
+
+        clearAttributeValue(objectInstance, attribute);
+        AttributeValue newValue = AttributeValue.createNew(objectInstance, attribute, value);
+        session.save(newValue);
+        return newValue;
+    }
+
+    public void clearAttributeValue(ObjectInstance instance, Attribute attribute) {
+        Object existingValue = instance.attributeValueMap.getOrDefault(attribute, null);
+        System.out.println(existingValue);
+        if (existingValue != null) {
+            if (existingValue instanceof List) {
+                for (Object o : (List)existingValue) {
+                    Entity e = (Entity)o;
+                    delete(e.guid);
+                }
+            } else {
+                delete(((Entity)existingValue).guid);
+            }
+        }
+    }
+
+    public AttributeValue findAttributeValue(String guid) {
+        return attributeValues.find(guid);
+    }
+
+    private List<AttributeValue> createOrUpdateListAttributeValue(ObjectInstance objectInstance, Attribute attribute, List<Object> values) {
+        return values.stream().map(x -> createOrUpdateAttributeValue(objectInstance, attribute, x)).collect(Collectors.toList());
+    }
+
     public ObjectInstance createObjectInstance(String name, String templateGuid, Map<String, Object> attributeValues) {
         Template t =  templates.find(templateGuid);
         ObjectInstance i = ObjectInstance.createNew(name, t, attributeValues);
-        createOrUpdate(i);
+        List<AttributeValue> values = new ArrayList<>();
         if (attributeValues != null) {
-            for (Attribute att : t.getAllAttributes()) {
-                AttributeValue av = new AttributeValue(i, att, attributeValues.getOrDefault(att.name, ""));
-                session.save(av);
+            for (String attName : attributeValues.keySet()) {
+                Object value = attributeValues.getOrDefault(attName, null);
+                Attribute att = attributes.findByProperty("name", attName);
+                if (value instanceof List) {
+                    values.addAll(createOrUpdateListAttributeValue(i, att, (List)value));
+                } else {
+                    values.add(createOrUpdateAttributeValue(i, att, value));
+                }
             }
         }
+        i.attributeValueList = values;
+        System.out.println(i);
+        createOrUpdate(i);
         return i;
+    }
+
+    public Object findEntity(String guid) {
+        Iterator<Entity> x  = session.query(Entity.class, "MATCH (a) where a.guid = $guid return a", Map.of("guid", guid)).iterator();
+        List<Object> castObject = new ArrayList<>();
+        if (x.hasNext()) {
+            return x.next();
+        } else {
+            return null;
+        }
     }
 
     public void addRelationship(String sourceGuid, String targetGuid) {
@@ -64,5 +133,4 @@ public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
                 "MATCH (template:Template)<--(att:Attribute) WHERE template.guid = $guid RETURN att",
                 Map.of("guid", templateGuid));
     }
-
 }

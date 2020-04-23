@@ -14,14 +14,22 @@ public class Attribute extends Entity {
     @Property
     public AttributeType attributeType;
 
+    @Property
+    public AttributeType secondaryType;
+
     public static Attribute createNew(String name, AttributeType attributeType) {
-        return new Attribute(UUID.randomUUID().toString(), name, attributeType);
+        return Attribute.createNew(name, attributeType, null);
     }
 
-    private Attribute(String guid, String name, AttributeType attributeType) {
+    public static Attribute createNew(String name, AttributeType attributeType, AttributeType secondaryType) {
+        return new Attribute(UUID.randomUUID().toString(), name, attributeType, secondaryType);
+    }
+
+    private Attribute(String guid, String name, AttributeType attributeType, AttributeType secondaryType) {
         this.guid = guid;
         this.name = name;
         this.attributeType = attributeType;
+        this.secondaryType = secondaryType;
     }
 
     public Attribute() {
