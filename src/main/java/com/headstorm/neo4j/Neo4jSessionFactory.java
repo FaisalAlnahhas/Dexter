@@ -10,8 +10,8 @@ public class Neo4jSessionFactory {
     private static Neo4jSessionFactory factory = new Neo4jSessionFactory();
 
     public static void configureBasicAuthSession(String uri, String user, String password) {
-        Configuration configuration = new Configuration.Builder().uri("bolt://localhost")
-                .credentials("neo4j", "password")
+        Configuration configuration = new Configuration.Builder().uri(uri)
+                .credentials(user, password)
                 .build();
 
          sessionFactory = new SessionFactory(configuration, "com.headstorm");
@@ -29,4 +29,3 @@ public class Neo4jSessionFactory {
         return sessionFactory.openSession();
     }
 }
-
