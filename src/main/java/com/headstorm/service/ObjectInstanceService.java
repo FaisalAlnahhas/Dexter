@@ -42,8 +42,6 @@ public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
     public AttributeValue createOrUpdateAttributeValue(ObjectInstance objectInstance, Attribute attribute, Object value) {
         if (value == null) {
             // How should we notify the caller that the value is null?
-            System.out.println(attribute);
-            System.out.println(value);
             return null;
         }
 
@@ -55,7 +53,6 @@ public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
 
     public void clearAttributeValue(ObjectInstance instance, Attribute attribute) {
         Object existingValue = instance.attributeValueMap.getOrDefault(attribute, null);
-        System.out.println(existingValue);
         if (existingValue != null) {
             if (existingValue instanceof List) {
                 for (Object o : (List)existingValue) {
@@ -92,7 +89,6 @@ public class ObjectInstanceService extends ObjectRegistry<ObjectInstance> {
             }
         }
         i.attributeValueList = values;
-        System.out.println(i);
         createOrUpdate(i);
         return i;
     }

@@ -1,7 +1,6 @@
 package com.headstorm.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.headstorm.server.SimpleHttpResponse;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -40,9 +39,7 @@ public class JettyServer implements AutoCloseable{
     }
 
     public void stop() throws Exception {
-        System.out.println("Server stopping");
         server.stop();
-        System.out.println("Server stopped");
     }
 
     public void addServlet(String path, HttpServlet servlet) {
@@ -83,9 +80,6 @@ public class JettyServer implements AutoCloseable{
             protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
                 SimpleHttpResponse response = func.apply(req);
                 response.applyToServletResponse(resp);
-//                if (response.body != null) {
-//                    resp.getWriter().println(mapper.writeValueAsString(response.body));
-//                }
             }
         };
     }
@@ -96,9 +90,6 @@ public class JettyServer implements AutoCloseable{
             protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
                 SimpleHttpResponse response = func.apply(req);
                 response.applyToServletResponse(resp);
-//                if (response.body != null) {
-//                    resp.getWriter().println(mapper.writeValueAsString(response.body));
-//                }
             }
         };
     }

@@ -1,6 +1,3 @@
-from com.headstorm.service import ObjectInstanceService
-from com.headstorm.domain import Template, Attribute, AttributeType
-
 # if __name__ != '__main__':
 #     service = ObjectInstanceService()
 #

@@ -1,7 +1,6 @@
 package com.headstorm.service;
 
 import com.headstorm.domain.Entity;
-import com.headstorm.domain.Template;
 import com.headstorm.neo4j.Neo4jSessionFactory;
 import org.neo4j.ogm.session.Session;
 
@@ -42,7 +41,6 @@ public class ObjectRegistry<T extends Entity> implements Service<T> {
 
     @Override
     public void delete(String guid) {
-        System.out.println(session.load(clazz, guid));
         session.delete(session.load(clazz, guid));
     }
 

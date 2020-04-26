@@ -1,7 +1,6 @@
-from com.headstorm.service import ObjectInstanceService
 from com.headstorm.server import JettyServer, SimpleHttpResponse
+from com.headstorm.service import ObjectInstanceService
 from java.util.function import Function
-
 
 server = JettyServer()
 service = ObjectInstanceService()

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SimpleHttpResponse {
     public final HashMap<String, String> headers = new HashMap<>();
@@ -19,9 +18,6 @@ public class SimpleHttpResponse {
             response.addHeader(x, headers.get(x));
         }
         response.setStatus(statusCode);
-        System.out.println(body);
-        String mapped = mapper.writeValueAsString(body);
-        System.out.println(mapped);
         response.getWriter().write(mapper.writeValueAsString(body));
     }
 

@@ -1,7 +1,10 @@
 package com.headstorm.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.neo4j.ogm.annotation.*;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
+import org.neo4j.ogm.annotation.Relationship;
+
 import java.util.UUID;
 
 @NodeEntity

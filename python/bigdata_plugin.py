@@ -1,5 +1,5 @@
-from com.headstorm.service import ObjectInstanceService
 from com.headstorm.domain import Template, Attribute, AttributeType, DataType
+from com.headstorm.service import ObjectInstanceService
 
 service = ObjectInstanceService()
 
