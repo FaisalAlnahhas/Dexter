@@ -1,4 +1,4 @@
-package com.headstorm.server;
+package com.headstorm.dexter.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

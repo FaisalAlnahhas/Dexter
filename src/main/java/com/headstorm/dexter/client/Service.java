@@ -1,4 +1,4 @@
-package com.headstorm.service;
+package com.headstorm.dexter.client;
 
 interface Service<T> {
 

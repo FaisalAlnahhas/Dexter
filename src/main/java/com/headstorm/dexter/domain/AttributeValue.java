@@ -1,4 +1,4 @@
-package com.headstorm.domain;
+package com.headstorm.dexter.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.neo4j.ogm.annotation.NodeEntity;

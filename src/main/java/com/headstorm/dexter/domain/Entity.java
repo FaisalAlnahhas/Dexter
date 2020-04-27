@@ -1,4 +1,4 @@
-package com.headstorm.domain;
+package com.headstorm.dexter.domain;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.Property;
 

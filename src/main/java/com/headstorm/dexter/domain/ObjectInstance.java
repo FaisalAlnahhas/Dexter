@@ -1,21 +1,16 @@
-package com.headstorm.domain;
+package com.headstorm.dexter.domain;
 
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @NodeEntity
 public class ObjectInstance extends Entity {
 
     public String name;
-
-//    @Relationship(type = "INSTANCE_OF")
-//    public Template template;
 
     @Property
     public String templateReference;
@@ -24,7 +19,11 @@ public class ObjectInstance extends Entity {
     public String type;
 
     @Relationship(type = "HAS_VALUE")
-    public List<AttributeValue> attributeValueList;
+    public List<AttributeValue> attributeValueList = new ArrayList<>();
+
+    public List<AttributeValue> valuesForAttribute(String attributeName) {
+        return attributeValueList.stream().filter(x -> x.attributeName.equals(attributeName)).collect(Collectors.toList());
+    }
 
     transient public Map<String, Object> attributeValueMap;
 
