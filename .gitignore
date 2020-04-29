@@ -1,6 +1,6 @@
-.gradle/**
-.idea/**
-build/**
-python/venv/lib/**
+**/.gradle/vcs-1
+**/.idea/**
+**/build/**
+**/python/venv/lib/**
 *.class
 *.log

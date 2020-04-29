@@ -5,6 +5,7 @@ A data catalog tool
 
 1. `git clone` the repo
 2. `cd` into the cloned folder
+3. `cd` into `dexter-core`
 3. Set any variables needed for the neo4j driver
 4. `./gradlew run`
 This will start the application and webserver, and connect it to Neo4J
