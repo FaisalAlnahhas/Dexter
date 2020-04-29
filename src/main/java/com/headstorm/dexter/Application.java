@@ -12,7 +12,7 @@ public class Application {
 
     public static void main(String[] args) {
 
-        DexterClient client = ClientFactory.getClientInstance();
+        DexterClient client = ClientFactory.getClient();
 
         for (Entity e: client.getAll()) {
             client.delete(e.guid);
@@ -31,6 +31,7 @@ public class Application {
         }
         try {
             server.start(8080);
+            server.join();
         } catch (Exception e) {
             e.printStackTrace();
         }

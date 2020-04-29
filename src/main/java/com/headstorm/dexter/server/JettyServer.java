@@ -42,6 +42,10 @@ public class JettyServer implements AutoCloseable{
         server.stop();
     }
 
+    public void join() throws InterruptedException {
+        server.join();
+    }
+
     public void addServlet(String path, HttpServlet servlet) {
         ServletHolder holder = new ServletHolder(servlet);
         rootContext.addServlet(holder, path);

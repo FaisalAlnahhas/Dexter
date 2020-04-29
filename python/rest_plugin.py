@@ -4,7 +4,7 @@ from com.headstorm.dexter.client import ClientFactory
 from java.util.function import Function
 
 server = JettyServer()
-client = ClientFactory.getClientInstance();
+client = ClientFactory.getClient()
 
 class FunctionWrapper(Function):
 
@@ -17,6 +17,7 @@ class FunctionWrapper(Function):
 
 def print_post_body(request):
     payload = server.readRequestBody(request)
+    print(payload)
     endpoint_template = client.entitiesWithProperty("name", "Endpoint")
     print(endpoint_template)
     obj = client.createOrUpdateInstance(endpoint_template.guid, payload['name'], payload)

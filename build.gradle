@@ -6,6 +6,8 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+def neo4jVersion = "3.2.11"
+
 mainClassName = "com.headstorm.dexter.Application"
 sourceCompatibility = 1.9
 
@@ -14,9 +16,11 @@ repositories {
 }
 
 dependencies {
+    compile "org.neo4j:neo4j:${neo4jVersion}"
     implementation "org.python:jython-slim:2.7.2"
-    implementation "org.neo4j:neo4j-ogm-core:3.2.10"
-    implementation "org.neo4j:neo4j-ogm-bolt-driver:3.2.10"
+    compile "org.neo4j:neo4j-ogm-core:3.2.11"
+    compile "org.neo4j:neo4j-ogm-bolt-driver:3.2.11"
+    compile "org.neo4j:neo4j-ogm-embedded-driver:3.2.11"
     implementation "org.eclipse.jetty:jetty-server:9.4.3.v20170317"
     implementation "org.eclipse.jetty:jetty-servlet:9.4.3.v20170317"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.9.8"

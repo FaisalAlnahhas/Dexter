@@ -2,7 +2,7 @@ import os
 from com.headstorm.dexter.domain import Template, Attribute, AttributeType, DataType
 from com.headstorm.dexter.client import ClientFactory
 
-client = ClientFactory.getClientInstance();
+client = ClientFactory.getClient()
 
 
 column_attributes = [Attribute.createNew("datatype", AttributeType.DATATYPE)]

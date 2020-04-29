@@ -16,13 +16,12 @@ class Neo4jDexterClient implements DexterClient {
     private final ObjectRegistry<ObjectInstance> instances;
     private final ObjectRegistry<Tag> tags;
 
-    public static Neo4jDexterClient createNew(String neo4jUri, String username, String password) {
-        Neo4jSessionFactory.configureBasicAuthSession(neo4jUri, username, password);
-        return new Neo4jDexterClient();
+    public static Neo4jDexterClient createNew(Session session) {
+        return new Neo4jDexterClient(session);
     }
 
-    private Neo4jDexterClient() {
-        this.session = Neo4jSessionFactory.getInstance().getNeo4jSession();
+    private Neo4jDexterClient(Session session) {
+        this.session = session;
         templates = new ObjectRegistry<>(Template.class, session);
         attributes = new ObjectRegistry<>(Attribute.class, session);
         instances = new ObjectRegistry<>(ObjectInstance.class, session);
@@ -218,32 +217,6 @@ class Neo4jDexterClient implements DexterClient {
             return objIterator.next();
         } else {
             return null;
-        }
-    }
-
-    private static class Neo4jSessionFactory {
-
-        private static SessionFactory sessionFactory;
-        private static Neo4jSessionFactory factory = new Neo4jSessionFactory();
-
-        public static void configureBasicAuthSession(String uri, String user, String password) {
-            Configuration configuration = new Configuration.Builder().uri(uri)
-                    .credentials(user, password)
-                    .build();
-
-            sessionFactory = new SessionFactory(configuration, "com.headstorm");
-        }
-
-        public static Neo4jSessionFactory getInstance() {
-            return factory;
-        }
-
-        // prevent external instantiation
-        private Neo4jSessionFactory() {
-        }
-
-        public Session getNeo4jSession() {
-            return sessionFactory.openSession();
         }
     }
 
